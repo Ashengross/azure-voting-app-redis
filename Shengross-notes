@@ -1,0 +1,36 @@
+cd azure-vote
+docker-compose up -d
+docker images
+docker ps
+http://localhost:8080
+docker-compose down
+
+
+az login --use-device-code
+az acr login -n shengrossdemoacr
+az acr list --resource-group myResourceGroup --query "[].{acrLoginServer:loginServer}" --output table
+docker images
+docker tag mcr.microsoft.com/azuredocs/azure-vote-front:v1 shengrossdemoacr.azurecr.io/azure-vote-front:v1
+docker images
+docker push shengrossdemoacr.azurecr.io/azure-vote-front:v1
+
+az aks get-credentials --resource-group myResourceGroup --name myAKSClusterCanary
+kubectl get nodes
+kubectl apply -f azure-vote-all-in-one-redis.yaml
+kubectl get service azure-vote-front --watch
+kubectl get pods
+
+az ad sp create-for-rbac --name "shengross-voting-app" --role contributor --scopes /subscriptions/7d2529f2-f8b2-4eed-beea-24db93eda831/resourceGroups/myResourceGroup --sdk-auth
+
+{
+  "clientId": "8ec66bda-f3bf-4919-b33a-861341a14442",
+  "clientSecret": "XDcgL2kLwgoGLlM.g7kACYr2JPSNDB39.D",
+  "subscriptionId": "7d2529f2-f8b2-4eed-beea-24db93eda831",
+  "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}
