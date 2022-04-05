@@ -5,7 +5,7 @@ env:
   REGISTRY_NAME: shengrossdemoacr
   CLUSTER_NAME: myAKSClusterCanary
   CLUSTER_RESOURCE_GROUP: myResourceGroup
-  NAMESPACE: voting-app
+  NAMESPACE: default
   SECRET: voting-secret
   APP_NAME: azure-vote-back
   
